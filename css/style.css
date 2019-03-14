@@ -1,4 +1,7 @@
 .body{
     text-align: center
+    display: block;
+    margin: auto;
+    width: 90% 
 }
 

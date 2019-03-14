@@ -1,12 +1,12 @@
-    // Initialize Firebase
-    var config = {
-        apiKey: "AIzaSyB8_Awittu9HqoVo0BT9qsyL-fOMpJZcsA",
-        authDomain: "denzoutesting.firebaseapp.com",
-        databaseURL: "https://denzoutesting.firebaseio.com",
-        projectId: "denzoutesting",
-        storageBucket: "denzoutesting.appspot.com",
-        messagingSenderId: "201211345201"
-        };
+// Initialize Firebase
+var config = {
+    apiKey: "AIzaSyB8_Awittu9HqoVo0BT9qsyL-fOMpJZcsA",
+    authDomain: "denzoutesting.firebaseapp.com",
+    databaseURL: "https://denzoutesting.firebaseio.com",
+    projectId: "denzoutesting",
+    storageBucket: "denzoutesting.appspot.com",
+    messagingSenderId: "201211345201"
+};
 
 firebase.initializeApp(config);
 
@@ -19,47 +19,76 @@ let name = "";
 let destination = "";
 let arrivaltime = "";
 let frequencymin = "";
-var minAway
 
 
-$("#submit-button").on("click", function(event){
+$("#submit-button").on("click", function (event) {
 
-let name = $("#input-train").val().trim();
-console.log(name);
+    let name = $("#input-train").val().trim();
+    console.log(name);
 
-let destination = $("#input-destination").val().trim();
-console.log(destination);
+    let destination = $("#input-destination").val().trim();
+    console.log(destination);
 
-let arrivaltime= $("#input-arrival").val().trim();
-console.log(arrivaltime);
+    let arrivaltime = $("#input-first").val().trim();
+    console.log(arrivaltime);
 
-let frequencymin = $("#input-freq").val().trim();
-console.log(frequencymin);
+    let frequencymin = $("#input-freq").val().trim();
+    console.log(frequencymin);
 
-// Code for the push
-dataRef.ref().push({
+    //Gotta calculate how many minutes away
 
-    name: name,
-    destination: destination,
-    arrivaltime: arrivaltime,
-    frequencymin: frequencymin,
-    dateAdded: firebase.database.ServerValue.TIMESTAMP
+    //arrivaltime
+    arrivaltimeConverted = moment(arrivaltime, "HH:mm").subtract(1, "years");
+    console.log("this is the converted first train time" + arrivaltimeConverted);
+
+    //current time
+    let currentTime = moment();
+    console.log("this is the current time " + moment(currentTime).format("HH:mm"));
+
+    // military time of arrival - current military time 
+    let diffTime = moment().diff(moment(arrivaltimeConverted), "minutes");
+    console.log("this is the diff between the two " + diffTime);
+
+
+    //diffTime % frequencymin (remainder)
+    let remainder = diffTime % frequencymin;
+    console.log("this is the remainder " + remainder);
+
+    //frequency - remainer = minAway
+    let minAway = frequencymin - remainder;
+    console.log("min till next train " + minAway);
+
+    //calculate next train
+    let nextTrain = (moment().add(minAway, "minutes"));
+
+    let formattednextTrain = JSON.stringify(moment(nextTrain).format("HH:mm"));
+    console.log("Arrival of next train " + (moment(nextTrain).format("HH:mm")));
+
+    // Code for the push
+    dataRef.ref().push({
+
+        name: name,
+        destination: destination,
+        nextTrain: formattednextTrain,
+        frequencymin: frequencymin,
+        minAway: minAway,
+        dateAdded: firebase.database.ServerValue.TIMESTAMP
+    });
 });
-});
 
-dataRef.ref().on("child_added", function(childSnapshot){
+dataRef.ref().on("child_added", function (childSnapshot) {
 
     //log what is coming out of snapshot
-console.log(childSnapshot.val().name);
-console.log(childSnapshot.val().destination);
-console.log(childSnapshot.val().arrivaltime);
-console.log(childSnapshot.val().frequencymin);
-console.log(childSnapshot.val().dateAdded);
+    console.log(childSnapshot.val().name);
+    console.log(childSnapshot.val().destination);
+    console.log(childSnapshot.val().nextTrain);
+    console.log(childSnapshot.val().frequencymin);
+    console.log(childSnapshot.val().minAway);
 
 
-$("#here").append("<tr><td scope='row'>" + childSnapshot.val().name + "</td><td>" + childSnapshot.val().destination + "</td><td>" + childSnapshot.val().frequencymin + "</td><td>" + childSnapshot.val().arrivaltime+ "</td><td>" + childSnapshot.val().minAway+ "</td></tr>");
+    $("#here").append("<tr><td scope='row' class = 'text-center'>" + childSnapshot.val().name + "</td><td scope='row' class = 'text-center'>" + childSnapshot.val().destination + "</td><td scope='row' class = 'text-center'>" + childSnapshot.val().frequencymin + "</td><td scope='row' class = 'text-center'>" + childSnapshot.val().nextTrain + "</td><td scope='row' class = 'text-center'>" + childSnapshot.val().minAway + "</td></tr>");
 
 
-}, function(errorObject){
+}, function (errorObject) {
     console.log("Errors: " + errorObject.code);
 });

@@ -1,68 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Train Time</title>
 
-<!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
-<!-- Link to Moment.js should go here -->
-<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+    <!-- Link to Moment.js should go here -->
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
-<!-- Bootstrap CDN-->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- Bootstrap CDN-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-<!--CSS-->
-<link rel="stylesheet" type="text/css" src="css/style.css">
+    <!--CSS-->
+    <link rel="stylesheet" type="text/css" src="css/style.css">
 
-<!-- LINK TO FIREBASE GOES HERE -->
-<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+    <!-- LINK TO FIREBASE GOES HERE -->
+    <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
 
 </head>
 
 <body>
-<div class="container">
-
-<div class="jumbotron jumbotron-fluid">
     <div class="container">
-        <h1 class="display-4">Train Time</h1>
-            <p class="lead">Choo choo.</p>
-    </div>
-</div>
 
-<table class="table table-striped table-dark">
-    <thead id="here">
-        <tr>
-            <th scope="col">Train Name</th>
-            <th scope="col">Destination</th>
-            <th scope="col">Frequency (min)</th>
-            <th scope="col">Next Arrival</th>
-            <th scope="col">Minutes Away</th>
-        </tr>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Train Time...</h1>
+                <h3 class="lead text-center">'Hmmm, when's my next train?' -Nobody</h3>
+            </div>
+        </div>
 
-    </thead>
-</table>
+        <table class="table table-striped table-dark table-fluid">
+            <thead id="here">
+                <tr>
+                    <th scope="col-md-3" class='text-center'>Train Name</th>
+                    <th scope="col-md-2" class='text-center'>Destination</th>
+                    <th scope="col-md-2" class='text-center'>Frequency (min)</th>
+                    <th scope="col-md-2" class='text-center'>Next Arrival</th>
+                    <th scope="col-md-3" class='text-center'>Minutes Away</th>
+                </tr>
 
-<table class="table table-striped table-dark">
-        <thead>
+            </thead>
+        </table>
+
+        <table class="table table-striped table-dark table-fluid">
+            <thead>
                 <tr scope="col">Train Name</tr>
-                <input class ="table table-striped table-dark" id="input-train">
+                <input class="table table-striped table-dark text-center" id="input-train">
                 <tr scope="col">Destination</tr>
-                <input class ="table table-striped table-dark" id = "input-destination">
-                <tr scope="col">Arrival time (HH:mm) Military time</tr>
-                <input class ="table table-striped table-dark" id = "input-arrival">
+                <input class="table table-striped table-dark" id="input-destination">
+                <tr scope="col">First train time (HH:mm) Military time</tr>
+                <input class="table table-striped table-dark" id="input-first">
                 <tr scope="col">Frequency (min)</tr>
-                <input class ="table table-striped table-dark" id = "input-freq">
+                <input class="table table-striped table-dark" id="input-freq">
                 <button class="btn btn-dark" id="submit-button">Submit</button>
-        </thead>
-</table>
-</div>
+            </thead>
+        </table>
+    </div>
 
-<!--Javascript-->
-<script text="text/javascript" src="javascript\script.js"></script>
+    <!--Javascript-->
+    <script text="text/javascript" src="javascript\script.js"></script>
 
 </body>
+
 </html>
